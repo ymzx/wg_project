@@ -1,0 +1,44 @@
+该程序是浦东网格每小时聚类的程序
+1，环境
+python3.5.2，CentOS-6.8-x86_64
+
+2，配置
+配置程序方法：
+    修改 Jconfig.py 文件中的值。
+    
+其中一次包括 数据库地址，数据库端口，数据库用户，数据库密码，数据库名，数据库原始数据表，数据库结果数据表.
+    
+pd_config.host = '10.50.5.14'
+    
+pd_config.port = 3306
+    
+pd_config.user = 'user_temp_wg'
+    
+pd_config.password = 'fgytehjds3456hgnh'
+    
+pd_config.db = 'db_temp_wg'
+    
+pd_config.raw_table = 'READY2USE'
+    
+pd_config.result_table = 'T_INFO_RESULT_TEST'
+ 
+   
+pd_config.path = "/root/pd_grid/pd_grid"
+
+3，测试方法
+在数据库 pd_config.T_READ2USE  表中添加一条TASKID 为END 的记录。
+    
+    
+执行python3 cluster.py，正常执行，无报错信息，
+检查pd_config.result_table 中会插入日期为当天的数据 即表示执行成功。
+检查数据库中pd_config.T_INFO_RESULT_TEST数据是否为空，不为空即表示正常。
+
+4，正式运行:
+定时启动方法：
+crontab -e
+
+
+在最后一行粘贴：
+5 * * * * /usr/local/bin/python3 /root/pd_grid/pd_grid/cluster.py
+
+其中/usr/local/bin/python3 为python3解释器的位置，/root/pd_grid/pd_grid/cluster.py为脚本的具体位置
